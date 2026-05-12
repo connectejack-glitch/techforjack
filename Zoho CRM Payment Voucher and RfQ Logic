@@ -1,0 +1,61 @@
+void automation.Update_RFQs_PV_Balances(Int pvID)
+{ 
+	//overall list top
+    pv = zoho.crm.getRecordById("Payment_Vouchers", pvID);
+    payment_type = pv.get("Payment_Type");
+	// 1. Get the list of RFQs from the PV record
+	rfqList = pv.get("Payment_Voucher_RFQs");
+
+// 1. Check the Payment Type (Matches your JSON "Item")
+payment_type = pv.get("Payment_Type");
+
+// 1. Get Payment Type
+payment_type = pv.get("Payment_Type");
+
+// Only run logic if type is "Item"
+if(payment_type == "Item")
+{
+	// 2. Get the list of RFQs from the subform
+	rfqList = pv.get("Payment_Voucher_RFQs");
+
+	for each  rec in rfqList
+	{
+		// Get ID and Amount from the subform row
+		rfqID = rec.get("RFQ").get("id");
+		pvCommittedAmount = rec.get("Item_PV_Committed").toDecimal();
+
+		// 3. Fetch the latest RFQ record from the RFQ Module
+		rfqRecord = zoho.crm.getRecordById("RFQs",rfqID);
+		
+		if(rfqRecord.get("id") != null)
+		{
+			// 4. Get existing values from the RFQ
+			// Total Cost of the RFQ
+			totalRFQCost = rfqRecord.get("Total_Cost_Price").toDecimal();
+			// Current committed amount (starts at 0 based on your JSON)
+			existingRFQCommitted = ifnull(rfqRecord.get("Item_PV_Committed"),0).toDecimal();
+
+			// 5. Calculate New Totals
+			// We ADD the new PV amount to whatever was already committed on the RFQ
+			newTotalCommitted = existingRFQCommitted + pvCommittedAmount;
+			
+			// Calculate remaining balance (Total Cost - New Total Committed)
+			// Ensure you have a field for this in the RFQ module, e.g., 'Item_Balance_Remaining'
+			remainingBalance = totalRFQCost - newTotalCommitted;
+
+			// 6. Update the RFQ Module
+			updateMap = Map();
+			updateMap.put("Item_PV_Committed",newTotalCommitted);
+			
+			// Check if you have this balance field in the RFQ module
+			updateMap.put("Item_Balance_Remaining2",remainingBalance); 
+
+			updateResponse = zoho.crm.updateRecord("RFQs",rfqID.toLong(),updateMap);
+			
+			info "Updated RFQ " + rfqID + " with New Committed Total: " + newTotalCommitted;
+		}
+	}
+}
+
+ //overall list bottom
+} 
