@@ -1,0 +1,67 @@
+void automation.Update_RFQs_PV_Balances(Int pvID)
+{
+pv = zoho.crm.getRecordById("Payment_Vouchers",pvID);
+payment_type = pv.get("Payment_Type");
+if(payment_type == "Item")
+{
+	rfqList = pv.get("Payment_Voucher_RFQs");
+	for each  rec in rfqList
+	{
+		rfqID = rec.get("RFQ").get("id");
+		pvCommittedAmount = ifnull(rec.get("Item_PV_Committed"),0).toDecimal();
+		rfqRecord = zoho.crm.getRecordById("RFQs",rfqID);
+		if(rfqRecord.get("id") != null)
+		{
+			// 1. Get static limit and existing commitment
+			totalRFQCost = ifnull(rfqRecord.get("RFQ_Cost"),0).toDecimal();
+			existingRFQCommitted = ifnull(rfqRecord.get("Item_PV_Committed"),0).toDecimal();
+			// 2. Calculate the state BEFORE this update
+			// This helps us identify if THIS specific PV is the one causing the issue
+			newTotalCommitted = existingRFQCommitted + pvCommittedAmount;
+			remainingBalance = totalRFQCost - newTotalCommitted;
+			// 3. TAGGING LOGIC: Only tag if this specific PV pushed it over
+			if(newTotalCommitted > totalRFQCost)
+			{
+				// We only tag the PV currently being processed (pvID)
+				tagMap = Map();
+				tagList = List();
+				tagList.add({"name":"OverBilled - Item"});
+				tagMap.put("Tag",tagList);
+				// Apply tag to the Payment Voucher that triggered this automation
+				zoho.crm.updateRecord("Payment_Vouchers",pvID.toLong(),tagMap);
+				info "PV " + pvID + " tagged as the record that caused over-billing.";
+			}
+			// 4. Update the RFQ Module with new balances
+			updateMap = Map();
+			updateMap.put("Item_PV_Committed",newTotalCommitted);
+			updateMap.put("Item_Balance_Remaining2",remainingBalance);
+			zoho.crm.updateRecord("RFQs",rfqID.toLong(),updateMap);
+		}
+	}
+}
+//------------------------------------------hehehehe-----------------------------------------------------
+// Only run logic if type is "Freight"
+if(payment_type == "Freight")
+{
+	rfqListFR = pv.get("Freight");
+	for each  dem in rfqListFR
+	{
+		demID = dem.get("RFQ_Name").get("id");
+		FRCommittedAmount = dem.get("Freight_Charges").toDecimal();
+		rfqRecord = zoho.crm.getRecordById("RFQs",demID);
+		if(rfqRecord.get("id") != null)
+		{
+			totalFreightCost = rfqRecord.get("Freight_Cost").toDecimal();
+			existingFreightCommitted = ifnull(rfqRecord.get("Freight_PV_Committed"),0).toDecimal();
+			newTotalCommittedFR = existingFreightCommitted + FRCommittedAmount;
+			remainingBalanceFR = totalFreightCost - newTotalCommittedFR;
+			updateMapFR = Map();
+			updateMapFR.put("Freight_PV_Committed",newTotalCommittedFR);
+			updateMapFR.put("Freight_Balance_Remaining",remainingBalanceFR);
+			updateResponseFR = zoho.crm.updateRecord("RFQs",demID.toLong(),updateMapFR);
+			info "Updated RFQ " + demID + " | Committed: " + newTotalCommittedFR + " | Remaining: " + remainingBalanceFR;
+		}
+	}
+}
+//overall list bottom
+}
