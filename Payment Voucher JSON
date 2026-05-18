@@ -1,0 +1,231 @@
+{
+
+  "Owner": {
+
+    "name": "The Delta",
+
+    "id": "2871700000000131011",
+
+    "email": "thedelta@rpm.com.ng"
+
+  },
+
+  "$currency_symbol": "NGN",
+
+  "$field_states": null,
+
+  "Payment_Type": "Item",
+
+  "Name": "12345",
+
+  "Last_Activity_Time": "2026-05-15T11:53:36+01:00",
+
+  "Beneficiary_Name": null,
+
+  "$state": "save",
+
+  "Unsubscribed_Mode": null,
+
+  "$process_flow": false,
+
+  "Exchange_Rate": 1,
+
+  "Finance_Comment": null,
+
+  "Currency": "NGN",
+
+  "$locked_for_me": false,
+
+  "id": "2871700000021804417",
+
+  "$approved": true,
+
+  "Freight": [],
+
+  "Status": "Draft",
+
+  "$approval": {
+
+    "delegate": false,
+
+    "takeover": false,
+
+    "approve": false,
+
+    "reject": false,
+
+    "resubmit": false
+
+  },
+
+  "Created_Time": "2026-05-15T11:21:37+01:00",
+
+  "$editable": true,
+
+  "Payment_Method": null,
+
+  "Total_Freight": null,
+
+  "Payment_Voucher_RFQs": [
+
+    {
+
+      "FX_Rate_Vendor_1": 1385,
+
+      "Item_Cost": 347053.3,
+
+      "$field_states": null,
+
+      "Created_Time": "2026-05-15T11:21:37+01:00",
+
+      "Vendor_Price": 250.58,
+
+      "Parent_Id": {
+
+        "name": "12345",
+
+        "id": "2871700000021804417"
+
+      },
+
+      "RFQ_Cost": 527453.3,
+
+      "New_FX_Rate": 1385,
+
+      "$layout_id": {
+
+        "display_label": "Standard",
+
+        "name": "Standard",
+
+        "id": "2871700000019636296"
+
+      },
+
+      "RPME": "45715-0526",
+
+      "Item_Balance_Remaining_RFQ": null,
+
+      "$in_merge": false,
+
+      "Vendor_Currency": "USD",
+
+      "id": "2871700000021804418",
+
+      "RFQ": {
+
+        "name": "3000-0526",
+
+        "id": "2871700000021100079"
+
+      },
+
+      "Item_PV_Committed": 100,
+
+      "Total_Cost_Price": 138500
+
+    }
+
+  ],
+
+  "Created_By": {
+
+    "name": "The Delta",
+
+    "id": "2871700000000131011",
+
+    "email": "thedelta@rpm.com.ng"
+
+  },
+
+  "$zia_owner_assignment": "owner_recommendation_unavailable",
+
+  "Director_s_Comment": null,
+
+  "Payment_Channel": null,
+
+  "Description": null,
+
+  "Vendor_Name": {
+
+    "name": "IGHOKES NIG. LIMITED",
+
+    "id": "2871700000021100077"
+
+  },
+
+  "OverBilled_Status": true,
+
+  "$review_process": {
+
+    "approve": false,
+
+    "reject": false,
+
+    "resubmit": false
+
+  },
+
+  "$layout_id": {
+
+    "display_label": "Standard",
+
+    "name": "Standard",
+
+    "id": "2871700000019611074"
+
+  },
+
+  "Variance": null,
+
+  "Total_RFQ_Cost": 347053.3,
+
+  "Record_Image": null,
+
+  "Modified_By": {
+
+    "name": "The Delta",
+
+    "id": "2871700000000131011",
+
+    "email": "thedelta@rpm.com.ng"
+
+  },
+
+  "$review": null,
+
+  "Payment_Status": null,
+
+  "Modified_Time": "2026-05-15T11:53:36+01:00",
+
+  "Unsubscribed_Time": null,
+
+  "Amount": null,
+
+  "Supply_Chain_Comment": null,
+
+  "$orchestration": false,
+
+  "Beneficiary_Bank": null,
+
+  "$in_merge": false,
+
+  "Locked__s": false,
+
+  "Account_Number1": null,
+
+  "Tag": [
+
+    {
+
+      "name": "OverBilled - Item",
+
+      "id": "2871700000021711001"
+
+    }
+
+  ],
+
+  "$approval_state": "approved"
+
+}
